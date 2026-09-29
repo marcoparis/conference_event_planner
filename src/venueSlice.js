@@ -1,56 +1,24 @@
-// venueSlice.js
 import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = [
+  { id: "conference", name: "Conference Room", capacity: 15, cost: 3500, max: 10, quantity: 0 },
+  { id: "auditorium", name: "Auditorium Hall", capacity: 200, cost: 5500, max: 3, quantity: 0 },
+  { id: "presentation", name: "Presentation Room", capacity: 50, cost: 700, max: 10, quantity: 0 },
+  { id: "large-meeting", name: "Large Meeting Room", capacity: 10, cost: 900, max: 10, quantity: 0 },
+  { id: "small-meeting", name: "Small Meeting Room", capacity: 5, cost: 1100, max: 10, quantity: 0 },
+];
 
 export const venueSlice = createSlice({
   name: "venue",
-  initialState: [
-    {
-      img: "https://pixabay.com/images/download/chairs-2181916_640.jpg",
-      name: "Conference Room (Capacity:15)",
-      cost: 3500,
-      quantity: 0,
-    },
-    {
-      img: "https://pixabay.com/images/download/event-venue-1597531_640.jpg",
-      name: "Auditorium Hall (Capacity:200)",
-      cost: 5500,
-      quantity: 0,
-    },
-    {
-      img: "https://pixabay.com/images/download/convention-center-3908238_640.jpg",
-      name: "Presentation Room (Capacity:50)",
-      cost: 700,
-      quantity: 0,
-    },
-    {
-      img: "https://pixabay.com/images/download/chairs-2181916_640.jpg",
-      name: "Large Meeting Room (Capacity:10)",
-      cost: 900,
-      quantity: 0,
-    },
-    {
-      img: "https://pixabay.com/images/download/laptops-593296_640.jpg",
-      name: "Small Meeting Room (Capacity:5)",
-      cost: 1100,
-      quantity: 0,
-    },
-  
-  ],
+  initialState,
   reducers: {
-   
-    incrementQuantity: (state, action) => {
-      const { payload: index } = action;
-      if (state[index]) {
-        if (state[index].name === " Auditorium Hall (Capacity:200)" && state[index].quantity >= 3) {
-          return;        }
-        state[index].quantity++;
-      }
+    incrementQuantity: (state, { payload: id }) => {
+      const item = state.find((i) => i.id === id);
+      if (item && item.quantity < item.max) item.quantity++;
     },
-    decrementQuantity: (state, action) => {
-      const { payload: index } = action;
-      if (state[index] && state[index].quantity > 0) {
-        state[index].quantity--;
-      }
+    decrementQuantity: (state, { payload: id }) => {
+      const item = state.find((i) => i.id === id);
+      if (item && item.quantity > 0) item.quantity--;
     },
   },
 });
