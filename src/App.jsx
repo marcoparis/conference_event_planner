@@ -1,36 +1,28 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import ConferenceEvent from "./ConferenceEvent";
 import AboutUs from "./AboutUs";
 
 function App() {
-  const [showVenue, setShowVenue] = useState(false);
-
-  const handleGetStarted = () => {
-    setShowVenue(true);
-  };
+  const [showPlanner, setShowPlanner] = useState(false);
 
   return (
     <>
-      <header className="first_page">
-        <div className="main_event">
-          <div className="first_page_name_btn">
-            <h1 className="budget_heading">Conference Expense Planner</h1>
-            <p className="budget_sentence"> Plan your next major event with us!</p>
-            <div className="getstarted_btn">
-              <button onClick={() => handleGetStarted()} className="get-started-btn">
-                Get Started
-              </button>
-            </div>
+      <header className="landing" aria-hidden={showPlanner}>
+        <div className="landing-overlay">
+          <div className="landing-intro">
+            <h1>Conference Expense Planner</h1>
+            <p className="landing-tagline">Plan your next major event with us!</p>
+            <button onClick={() => setShowPlanner(true)} className="get-started-btn">
+              Get Started
+            </button>
           </div>
-          <div className="aboutus_main">
-            <AboutUs />
-          </div>
+          <AboutUs />
         </div>
       </header>
 
-      <div className={`event-list-container ${showVenue ? 'visible' : ''}`}>
-        <ConferenceEvent />
+      <div className={`planner-container ${showPlanner ? "visible" : ""}`}>
+        <ConferenceEvent onHomeClick={() => setShowPlanner(false)} />
       </div>
     </>
   );
